@@ -10,6 +10,11 @@ namespace Builder;
 
 interface MealBuilderInterface
 {
-    public function buildFood(FoodInterface $food): MealBuilderInterface;
+
+    public function buildVegBurger(): MealBuilderInterface;
+    public function buildChickenBurger(): MealBuilderInterface;
+    public function buildCoke(): MealBuilderInterface;
+    public function buildPepsi(): MealBuilderInterface;
+
     public function build(): MealInterface;
 }

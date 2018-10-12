@@ -11,16 +11,33 @@ namespace Builder;
 class MealDirector
 {
 
-    protected $meal;
-    public function __construct(MealBuilderInterface $meal)
+    protected static $instance;
+    /**
+     * @var MealBuilderInterface
+     */
+    protected $builder;
+
+    final private function __construct()
     {
-        $this->meal = $meal;
+
+    }
+
+    final private function setBuilder(MealBuilderInterface $builder)
+    {
+        $this->builder = $builder;
+    }
+
+    public static function getInstance(MealBuilderInterface $builder)
+    {
+        if (!self::$instance) {
+            self::$instance = new self();
+        }
+        self::$instance->setBuilder($builder);
+        return self::$instance;
     }
 
     public function vegAndCoke()
     {
-        return $this->meal
-            ->buildFood(new VegBurger(new Warp()))
-            ->buildFood(new Coke(new Bottle()));
+        return $this->builder->buildVegBurger()->buildCoke();
     }
 }
