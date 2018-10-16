@@ -29,7 +29,6 @@ require 'ManAndSingleCriteria.php';
  */
 function printPerson($persons) {
     $res = [];
-
     foreach ($persons as $person) {
         $res[] = 'name: ' . $person->getName() . ', sex: '.$person->getSex(). ', status: ' . $person->getMaritalStatus();
     }
@@ -43,7 +42,7 @@ use Filter\WomanCriteria;
 $persons[] = new Person('one', Person::SEX_MAN, Person::MARITAL_NO);
 $persons[] = new Person('two', Person::SEX_MAN, Person::MARITAL_YES);
 $persons[] = new Person('three', Person::SEX_WOMAN, Person::MARITAL_YES);
-$persons[] = new Person('three', Person::SEX_WOMAN, Person::MARITAL_NO);
+$persons[] = new Person('four', Person::SEX_WOMAN, Person::MARITAL_NO);
 
 $manCriteria = new ManCriteria();
 printPerson($manCriteria->meetCriteria($persons));
