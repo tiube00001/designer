@@ -34,6 +34,11 @@ use Builder\FirstMeal;
 use Builder\MealDirector;
 
 
+/**
+ * 1.定义产品接口
+ * 2.定义抽象建造者接口
+ * 3.
+ */
 //需要生产的产品
 $product = new FirstMeal();
 
