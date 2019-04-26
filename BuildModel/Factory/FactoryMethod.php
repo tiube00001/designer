@@ -39,7 +39,7 @@ class SportProduct implements CarProduct
     }
 }
 
-//4.实现工厂，生成产品
+//4.实现工厂，生成产品，特点是：一个工厂，只能生产一种产品，工厂本身存在耦合
 class JeepFactory implements CarFactory
 {
     public function createCar()
