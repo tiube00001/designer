@@ -8,13 +8,14 @@
 
 namespace App\Container;
 
-use http\Exception;
 use Psr\Container\ContainerInterface;
+use ReflectionParameter;
 
 class Container implements ContainerInterface
 {
     //容器单例
     protected static $instance;
+    protected $stack = [];
 
     /**
      * 存放类名
@@ -36,17 +37,62 @@ class Container implements ContainerInterface
         static::$instance = $obj;
     }
 
-    public function bind(string $class, object $obj = null, bool $isSingle = false): void
+    public function bind($className)
     {
-        if ($obj && $obj instanceof $class) {
-            throw new \Exception('参数异常');
+        $this->bind[] = $className;
+    }
+
+
+    public function resolve($className)
+    {
+        if (!class_exists($className)) {
+            throw new \Exception('类不存在');
         }
 
-        $this->bind[$class] = [
-            'obj' => $obj,
-            'isSingle' => $isSingle
-        ];
+        $reflect = new \ReflectionClass($className);
+
+        //没有构造函数
+        $constructor = $reflect->getConstructor();
+        if (!$constructor) {
+            return new $className;
+        }
+
+        //构造函数没有参数
+        $params = $constructor->getParameters();
+        if (!$params) {
+            return new $className;
+        }
+
+        $list = $this->depend($params);
+        if (!$list) {
+            return new $className;
+        }
+        return $reflect->newInstanceArgs($list);
     }
+
+    /**
+     * @param ReflectionParameter[] $params
+     * @return array
+     */
+    public function depend(array $params) {
+        $list = [];
+        foreach ($params as $param) {
+            if ($param->getClass()) {
+                $list[] = $this->resolveClassName($param->getClass()->name);
+            }
+        }
+
+        return $list;
+    }
+
+    protected function resolveClassName($className)
+    {
+        return $this->resolve($className);
+    }
+
+
+
+
 
     public function get($id)
     {
@@ -57,6 +103,4 @@ class Container implements ContainerInterface
     {
         return !empty($this->bind[$id]['obj']);
     }
-
-
 }
