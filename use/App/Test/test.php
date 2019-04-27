@@ -11,9 +11,7 @@ namespace App\Test;
 require '../../vendor/autoload.php';
 
 use App\Container\Container;
-use App\One\One;
 use App\One\Three;
-use App\One\Two;
 
 $container = new Container();
 
