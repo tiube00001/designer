@@ -90,10 +90,6 @@ class Container implements ContainerInterface
         return $this->resolve($className);
     }
 
-
-
-
-
     public function get($id)
     {
         return $this->bind[$id]['obj'] ?? null;
