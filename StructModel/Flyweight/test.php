@@ -35,6 +35,8 @@
  * FlyweightConcrete：指定内部状态，实现外部具体外部状态接口
  * FlyweightFactory：享元工厂类，提供一个用于存储享元对象的对象池，当用户需要对象时，先从对象此获取，如果没有则创建，并加入对象池
  * UnsharedFlyweightConcrete：指定不需要被共享的类
+ *
+ * 一句话总结：就是给对象属性设置不同的值，让对象的功能相似但不相同
  */
 require './ShapeInterface.php';
 require './ShapeFactory.php';
