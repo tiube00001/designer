@@ -10,12 +10,16 @@ namespace App\Container;
 
 use Psr\Container\ContainerInterface;
 use ReflectionParameter;
+use ReflectionClass;
+use Exception;
 
 class Container implements ContainerInterface
 {
     //容器单例
     protected static $instance;
     protected $stack = [];
+
+    protected $obj = [];
 
     /**
      * 存放类名
@@ -42,14 +46,13 @@ class Container implements ContainerInterface
         $this->bind[] = $className;
     }
 
-
     public function resolve($className)
     {
         if (!class_exists($className)) {
-            throw new \Exception('类不存在');
+            throw new Exception('类不存在');
         }
 
-        $reflect = new \ReflectionClass($className);
+        $reflect = new ReflectionClass($className);
 
         //没有构造函数
         $constructor = $reflect->getConstructor();
