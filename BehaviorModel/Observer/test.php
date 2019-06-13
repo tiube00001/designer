@@ -3,31 +3,32 @@
  * Created by PhpStorm.
  * User: yhl
  * Date: 2019/6/13
- * Time: 11:49
+ * Time: 15:38
  */
+
 namespace Observer;
 
+require './DispatcherInterface.php';
+require './Dispatcher.php';
 
-require './PublisherInterface.php';
-require './Publisher.php';
+require './ShowEvent.php';
 
-require './SubscriberInterface.php';
-require './OneSubscribe.php';
-require './TwoSubscribe.php';
+require './OneListener.php';
+require './TwoListener.php';
 
-require './WeatherSubject.php';
+$dispatcher = Dispatcher::getInstance();
+
+$dispatcher->register(ShowEvent::class, OneListener::class);
+$dispatcher->register(ShowEvent::class, TwoListener::class);
+
+$dispatcher->dispatcher(new ShowEvent('one'));
+
+$dispatcher->remove(ShowEvent::class, OneListener::class);
+
+$dispatcher->dispatcher(new ShowEvent('two'));
+
+$dispatcher->flush(ShowEvent::class);
+
+$dispatcher->dispatcher(new ShowEvent('three'));
 
 
-$publisher = new Publisher();
-
-
-$oneSub = new OneSubscribe();
-$twoSub = new TwoSubscribe();
-
-$publisher->addObserver($oneSub);
-$publisher->addObserver($twoSub);
-
-$subject = new WeatherSubject();
-$subject->setPublisher($publisher);
-
-$subject->publishData('aaa');
